@@ -1,7 +1,7 @@
 import handlebars from 'handlebars'
 
 interface IVariables {
-  [key: string]: string | number
+  [key: string]: string | number | undefined
 }
 
 interface IParseEmail {
