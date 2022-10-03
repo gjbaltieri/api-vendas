@@ -6,7 +6,7 @@ interface IVariables {
 }
 
 interface IParseEmail {
-  template: string
+  file: string
   variables: IVariables
 }
 

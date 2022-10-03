@@ -3,6 +3,7 @@ import UserTokenRepository from '@modules/users/typeorm/repository/UserTokenRepo
 import AppError from '@shared/errors/AppError'
 import { getCustomRepository } from 'typeorm'
 import EtherealMail from '@config/mail/EtheriumMail'
+import path from 'path'
 
 interface IRequest {
   email: string
@@ -10,6 +11,7 @@ interface IRequest {
 
 class SendForgotPasswordEmailService {
   public async execute({ email }: IRequest): Promise<void> {
+    const templatePath = path.resolve(__dirname, '..', 'view', 'forgot_password.hbs')
     const userRepository = getCustomRepository(UsersRepository)
     const userTokenRepository = getCustomRepository(UserTokenRepository)
     const user = await userRepository.findByEmail(email)
@@ -24,10 +26,10 @@ class SendForgotPasswordEmailService {
       },
       subject: 'Troca de senha',
       templateData: {
-        template: `Olá <i>{{name}}</i>, troque sua senha agora!, token: <b>{{token}}</b>`,
+        file: templatePath,
         variables: {
           name: user.name,
-          token,
+          link: 'localhost:8000/reset_password?token=' + token,
         },
       },
     })
