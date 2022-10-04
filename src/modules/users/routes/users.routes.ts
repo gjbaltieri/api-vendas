@@ -5,7 +5,9 @@ import multer from 'multer'
 import uploadConfig from '@config/Upload'
 import isAuthenticated from '../../../shared/http/middlewares/isAuthenticated'
 import UserAvatarController from '../controller/userAvatarController'
+import ProfileController from '../controller/profileController'
 
+const profileController = new ProfileController()
 const userController = new UserController()
 const userAvatarController = new UserAvatarController()
 const UserRoutes = Router()
@@ -13,13 +15,7 @@ const UserRoutes = Router()
 const avatar = multer(uploadConfig)
 
 UserRoutes.get('/', isAuthenticated, userController.listAll)
-UserRoutes.get(
-  '/:id',
-  celebrate({
-    [Segments.PARAMS]: { id: Joi.string().uuid().required() },
-  }),
-  userController.listOne,
-)
+UserRoutes.get('/profile', isAuthenticated, profileController.showProfile)
 UserRoutes.post(
   '/',
   celebrate({
@@ -32,20 +28,18 @@ UserRoutes.post(
   userController.create,
 )
 UserRoutes.put(
-  '/:id',
-  celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().uuid().required(),
-    },
-  }),
+  '/update',
+  isAuthenticated,
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().min(3).max(30).required(),
       email: Joi.string().email().required(),
       password: Joi.string().min(5).required(),
+      passwordConfirmation: Joi.string().min(5).required().valid(Joi.ref('password')),
+      old_password: Joi.string().required(),
     },
   }),
-  userController.update,
+  profileController.update,
 )
 UserRoutes.delete(
   '/:id',
@@ -57,7 +51,5 @@ UserRoutes.delete(
   userController.delete,
 )
 UserRoutes.delete('/', userController.deleteAll)
-
-UserRoutes.patch('/avatar', isAuthenticated, avatar.single('avatar'), userAvatarController.update)
 
 export default UserRoutes
