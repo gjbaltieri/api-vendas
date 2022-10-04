@@ -34,9 +34,9 @@ class customerController {
     return res.status(200).json(customer)
   }
   public async delete(req: Request, res: Response): Promise<Response> {
-    const { id } = req.body
+    const { id } = req.params
     const customerService = new DeleteCustomerService()
-    await customerService.execute(id)
+    await customerService.execute({ id })
     return res.status(204).json([])
   }
 }
