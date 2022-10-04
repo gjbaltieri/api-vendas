@@ -16,7 +16,7 @@ class ResetPasswordService {
     const userTokenRepository = getCustomRepository(UserTokenRepository)
     const userToken = await userTokenRepository.findByToken(token)
     if (!userToken) {
-      throw new AppError('User Token does not exists.')
+      throw new AppError('User Token does not exists or expired.')
     }
     const user = await userRepository.findById(userToken.user_id)
     if (!user) {
@@ -30,6 +30,7 @@ class ResetPasswordService {
     }
     user.password = await hash(password, 8)
     await userRepository.save(user)
+    await userTokenRepository.remove(userToken)
   }
 }
 
