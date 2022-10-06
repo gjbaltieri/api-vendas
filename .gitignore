@@ -1,11 +1,12 @@
-node_modules/
-.idea/
-build/
-temp/
-.env/
-coverage/
-ormconfig.json/
-dist/
+
+.ide
+build
+temp
+.env
+coverage
+ormconfig.json
+distgit rm -r --cached .
+node_modules
 
 uploads/*
 !uploads/.gitkeep
