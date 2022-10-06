@@ -7,7 +7,7 @@ import OrdersController from '../controller/ordersController'
 const OrderRoutes = Router()
 const ordersController = new OrdersController()
 
-// OrderRoutes.use(isAuthenticated)
+OrderRoutes.use(isAuthenticated)
 OrderRoutes.get('/', ordersController.listAll)
 OrderRoutes.get(
   '/:id',
