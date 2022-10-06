@@ -35,7 +35,6 @@ class CreateOrderService {
     if (checkInexistentId.length) {
       throw new AppError(`${checkInexistentId.length} product(s) not found: ${checkInexistentId}`)
     }
-    // !!!!!!!!!!!!!! IMPORTANTE !!!!!!!!!!!!!!!!!!!!!!!!
     const quantityAvailable = products.filter(
       product => productsList.filter(p => p.id === product.id)[0].quantity < product.quantity,
     )
@@ -55,7 +54,7 @@ class CreateOrderService {
     const { order_products } = order
     const updatedQuantityProductQuantity = order_products.map(product => ({
       id: product.product_id,
-      quantity: productsList.filter(p => p.id === product.id)[0].quantity - product.quantity,
+      quantity: productsList.filter(p => p.id === product.product_id)[0].quantity - product.quantity,
     }))
     await productRepository.save(updatedQuantityProductQuantity)
 

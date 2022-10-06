@@ -42,7 +42,6 @@ class ProductController {
     const { id } = request.params
     const deleteProduct = new DeleteProduct()
     await deleteProduct.execute({ id })
-
     return response.json([])
   }
 }

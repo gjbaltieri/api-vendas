@@ -7,11 +7,13 @@ import routes from './routes'
 import '@shared/typeorm'
 import { errors } from 'celebrate'
 import uplaodConfig from '@config/Upload'
+import { paginate } from 'typeorm-pagination/dist/helpers/pagination'
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use(paginate)
 app.use('/files', express.static(uplaodConfig.directory))
 app.use(routes)
 app.use(errors())
