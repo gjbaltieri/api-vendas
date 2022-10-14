@@ -1,4 +1,3 @@
-
 .ide
 build
 temp
@@ -7,6 +6,8 @@ coverage
 ormconfig.json
 distgit rm -r --cached .
 node_modules
+babel.txt
+ormconfig.json
 
 uploads/*
 !uploads/.gitkeep

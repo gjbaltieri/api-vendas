@@ -1,4 +1,5 @@
 import 'reflect-metadata'
+import 'dotenv/config'
 import AppError from '@shared/errors/AppError'
 import express, { NextFunction, Request, Response } from 'express'
 import 'express-async-errors'
@@ -8,11 +9,14 @@ import '@shared/typeorm'
 import { errors } from 'celebrate'
 import uplaodConfig from '@config/Upload'
 import { pagination } from 'typeorm-pagination'
+import rateLimiter from './middlewares/rateLimiter'
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
+
+app.use(rateLimiter)
 app.use(pagination)
 app.use('/files', express.static(uplaodConfig.directory))
 app.use(routes)
@@ -31,6 +35,6 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   })
 })
 
-app.listen(8000, () => {
-  console.log('server started in localhost:8000')
+app.listen(process.env.PORT || 8000, () => {
+  console.log(`server started in localhost:${process.env.PORT || 8000}`)
 })

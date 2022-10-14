@@ -1,5 +1,6 @@
+import RedisCache from '@shared/cache/RedisCache'
 import AppError from '@shared/errors/AppError'
-import { DeleteResult, getCustomRepository } from 'typeorm'
+import { getCustomRepository } from 'typeorm'
 import ProductRepository from '../typeorm/repositories/ProductRepository'
 
 interface DInterface {
@@ -14,6 +15,7 @@ class DeleteProduct {
     if (!product) {
       throw new AppError('Product not found.')
     }
+    await RedisCache.invalidate('APIVENDAS_PRODUCT_LIST')
 
     await productRepository.remove(product)
   }
