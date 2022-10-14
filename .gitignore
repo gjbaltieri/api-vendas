@@ -7,7 +7,7 @@ ormconfig.json
 distgit rm -r --cached .
 node_modules
 babel.txt
-ormconfig.json
+ormconfig
 
 uploads/*
 !uploads/.gitkeep
