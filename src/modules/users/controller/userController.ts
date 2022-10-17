@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
-import createUserService from '../services/CreateUserService'
-import deleteAllUserService from '../services/DeleteAll'
-import deleteUserService from '../services/DeleteUserService'
-import ListUserService from '../services/ListUserService'
+import createUserService from '../infra/http/services/CreateUserService'
+import deleteAllUserService from '../infra/http/services/DeleteAll'
+import deleteUserService from '../infra/http/services/DeleteUserService'
+import ListUserService from '../infra/http/services/ListUserService'
 
 class UserController {
   public async listAll(req: Request, res: Response): Promise<Response> {

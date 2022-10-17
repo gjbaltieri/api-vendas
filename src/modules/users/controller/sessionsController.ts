@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import createSessionService from '../services/CreateSessionService'
+import createSessionService from '../infra/http/services/CreateSessionService'
 
 class SessionController {
   public async create(req: Request, res: Response): Promise<Response> {

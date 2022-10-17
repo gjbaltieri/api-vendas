@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm'
-import Customer from '../typeorm/entities/Customer'
-import CustomerRepository from '../typeorm/repository/CustomersRepository'
+import Customer from '../infra/typeorm/entities/Customer'
+import CustomerRepository from '../infra/typeorm/repository/CustomersRepository'
 
 interface IPaginate {
   from: number
