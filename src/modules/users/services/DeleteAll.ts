@@ -1,5 +1,5 @@
 import { DeleteResult, getCustomRepository } from 'typeorm'
-import UserRepository from '../../typeorm/repository/UsersRepository'
+import UserRepository from '../infra/typeorm/repository/UsersRepository'
 
 class deleteAllUserService {
   public async execute(): Promise<DeleteResult> {

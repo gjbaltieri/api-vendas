@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import CreateOrderService from '../infra/http/services/CreateOrderService'
-import ListAllOrderService from '../infra/http/services/ListAllOrderService'
-import ListOneOrderService from '../infra/http/services/ListOneOrderService'
+import CreateOrderService from '../../../services/CreateOrderService'
+import ListAllOrderService from '../../../services/ListAllOrderService'
+import ListOneOrderService from '../../../services/ListOneOrderService'
 
 class OrdersController {
   public async listAll(request: Request, response: Response): Promise<Response> {

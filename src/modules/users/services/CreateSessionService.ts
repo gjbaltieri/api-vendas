@@ -2,8 +2,8 @@ import AppError from '@shared/errors/AppError'
 import { compare } from 'bcryptjs'
 import AuthConfig from '@config/AuthConfig'
 import { getCustomRepository } from 'typeorm'
-import User from '../../typeorm/entities/User'
-import UsersRepository from '../../typeorm/repository/UsersRepository'
+import User from '../infra/typeorm/entities/User'
+import UsersRepository from '../infra/typeorm/repository/UsersRepository'
 import { sign } from 'jsonwebtoken'
 
 interface Isession {

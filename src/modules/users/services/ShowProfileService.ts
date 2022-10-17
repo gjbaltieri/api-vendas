@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError'
 import { getCustomRepository } from 'typeorm'
-import User from '../../typeorm/entities/User'
-import UserRepository from '../../typeorm/repository/UsersRepository'
+import User from '../infra/typeorm/entities/User'
+import UserRepository from '../infra/typeorm/repository/UsersRepository'
 
 class ShowUserService {
   public async execute(user_id: string): Promise<User> {

@@ -1,10 +1,10 @@
 import AppError from '@shared/errors/AppError'
 import { getCustomRepository } from 'typeorm'
-import User from '../../typeorm/entities/User'
+import User from '../infra/typeorm/entities/User'
 import fs from 'fs'
 import uploadConfig from '@config/Upload'
 import path from 'path'
-import UsersRepository from '../../typeorm/repository/UsersRepository'
+import UsersRepository from '../infra/typeorm/repository/UsersRepository'
 
 interface IRequest {
   user_id: string

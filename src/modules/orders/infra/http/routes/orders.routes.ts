@@ -2,7 +2,7 @@ import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated'
 import { celebrate, Segments } from 'celebrate'
 import { Router } from 'express'
 import Joi from 'joi'
-import OrdersController from '../../../controller/ordersController'
+import OrdersController from '../controller/ordersController'
 
 const OrderRoutes = Router()
 const ordersController = new OrdersController()
