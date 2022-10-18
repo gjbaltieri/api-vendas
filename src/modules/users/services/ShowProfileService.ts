@@ -1,12 +1,13 @@
 import AppError from '@shared/errors/AppError'
-import { getCustomRepository } from 'typeorm'
-import User from '../infra/typeorm/entities/User'
-import UserRepository from '../infra/typeorm/repository/UsersRepository'
+import { inject, injectable } from 'tsyringe'
+import { IUser } from '../domain/interfaces/models/IUser'
+import { IUserRepository } from '../domain/repository/IUserRepository'
 
+@injectable()
 class ShowUserService {
-  public async execute(user_id: string): Promise<User> {
-    const userRepository = getCustomRepository(UserRepository)
-    const user = await userRepository.findById(user_id)
+  constructor(@inject('UserRepository') private userRepository: IUserRepository) {}
+  public async execute(id: string): Promise<IUser> {
+    const user = await this.userRepository.findById(id)
     if (!user) {
       throw new AppError('User not found.')
     }

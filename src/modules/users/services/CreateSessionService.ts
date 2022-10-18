@@ -2,24 +2,18 @@ import AppError from '@shared/errors/AppError'
 import { compare } from 'bcryptjs'
 import AuthConfig from '@config/AuthConfig'
 import { getCustomRepository } from 'typeorm'
-import User from '../infra/typeorm/entities/User'
 import UsersRepository from '../infra/typeorm/repository/UsersRepository'
 import { sign } from 'jsonwebtoken'
+import { ISessionResponse } from '../domain/interfaces/models/ISessionResponse'
+import { ISession } from '../domain/interfaces/models/ISession'
+import { inject, injectable } from 'tsyringe'
+import { IUserRepository } from '../domain/repository/IUserRepository'
 
-interface Isession {
-  email: string
-  password: string
-}
-
-interface IResponse {
-  user: User
-  token: string
-}
-
+@injectable()
 class createSessionService {
-  public async execute({ email, password }: Isession): Promise<IResponse> {
-    const userRepository = getCustomRepository(UsersRepository)
-    const user = await userRepository.findByEmail(email)
+  constructor(@inject('UserRepository') private userRepository: IUserRepository) {}
+  public async execute({ email, password }: ISession): Promise<ISessionResponse> {
+    const user = await this.userRepository.findByEmail(email)
     if (!user) {
       throw new AppError('Invalid email or password.', 401)
     }

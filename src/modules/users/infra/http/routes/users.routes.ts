@@ -1,18 +1,12 @@
 import { Router } from 'express'
 import UserController from '../controller/userController'
 import { celebrate, Joi, Segments } from 'celebrate'
-import multer from 'multer'
-import uploadConfig from '@config/Upload'
 import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated'
-import UserAvatarController from '../controller/userAvatarController'
 import ProfileController from '../controller/profileController'
 
 const profileController = new ProfileController()
 const userController = new UserController()
-const userAvatarController = new UserAvatarController()
 const UserRoutes = Router()
-
-const avatar = multer(uploadConfig)
 
 UserRoutes.get('/', isAuthenticated, userController.listAll)
 UserRoutes.get('/profile', isAuthenticated, profileController.showProfile)
@@ -50,6 +44,5 @@ UserRoutes.delete(
   }),
   userController.delete,
 )
-UserRoutes.delete('/', userController.deleteAll)
 
 export default UserRoutes
