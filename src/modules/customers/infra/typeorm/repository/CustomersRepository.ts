@@ -1,5 +1,5 @@
 import { ICustomerRepository } from '@modules/customers/domain/interfaces/repository/ICustomerRepository'
-import { ICustomer } from '@modules/customers/domain/interfaces/models/ICustomer'
+import { ICustomer } from '@shared/interface/relationship/ICustomer'
 import { ICreateCustomer } from '@modules/customers/domain/interfaces/models/ICreateCustomer'
 import { getRepository, Repository } from 'typeorm'
 import Customer from '../entities/Customer'

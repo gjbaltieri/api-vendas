@@ -1,4 +1,4 @@
-import { ICustomer } from '../models/ICustomer'
+import { ICustomer } from '../../../../../shared/interface/relationship/ICustomer'
 
 export interface IPaginate {
   from: number

@@ -1,5 +1,5 @@
 import { ICreateCustomer } from '../models/ICreateCustomer'
-import { ICustomer } from '../models/ICustomer'
+import { ICustomer } from '../../../../../shared/interface/relationship/ICustomer'
 import { IPaginate } from './IPaginate'
 
 export interface ICustomerRepository {

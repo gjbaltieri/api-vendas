@@ -1,11 +1,12 @@
-import { getCustomRepository } from 'typeorm'
-import Order from '../infra/typeorm/entities/Order'
-import OrderRepository from '../infra/typeorm/repositories/OrderRepository'
+import { IOrder } from '@shared/interface/relationship/IOrder'
+import { inject, injectable } from 'tsyringe'
+import { IOrderRepository } from '../domain/interfaces/models/repository/IOrderRepository'
 
+@injectable()
 class ListAllOrderService {
-  public async execute(): Promise<Order[]> {
-    const userRepository = getCustomRepository(OrderRepository)
-    const orders = await userRepository.find({})
+  constructor(@inject('OrderRepository') private orderRepository: IOrderRepository) {}
+  public async execute(): Promise<IOrder[]> {
+    const orders = await this.orderRepository.find()
 
     return orders
   }

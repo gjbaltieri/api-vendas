@@ -1,12 +1,13 @@
 import AppError from '@shared/errors/AppError'
-import { getCustomRepository } from 'typeorm'
+import { inject, injectable } from 'tsyringe'
+import { IOrderRepository } from '../domain/interfaces/models/repository/IOrderRepository'
 import Order from '../infra/typeorm/entities/Order'
-import OrderRepository from '../infra/typeorm/repositories/OrderRepository'
 
+@injectable()
 class ListOneOrderService {
+  constructor(@inject('OrderRepository') private orderRepository: IOrderRepository) {}
   public async execute(id: string): Promise<Order | undefined> {
-    const userRepository = getCustomRepository(OrderRepository)
-    const order = await userRepository.findById(id)
+    const order = await this.orderRepository.findById(id)
 
     if (!order) {
       throw new AppError('Order not found.')

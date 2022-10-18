@@ -1,32 +1,24 @@
-import CustomerRepository from '@modules/customers/infra/typeorm/repository/CustomersRepository'
-import ProductRepository from '@modules/products/infra/typeorm/repositories/ProductRepository'
+import { ICustomerRepository } from '@modules/customers/domain/interfaces/repository/ICustomerRepository'
+import { IProductRepository } from '@modules/products/domain/interfaces/repository/IProductRepository'
 import AppError from '@shared/errors/AppError'
-import { getCustomRepository } from 'typeorm'
+import { inject, injectable } from 'tsyringe'
+import { IOrderRepository } from '../domain/interfaces/models/repository/IOrderRepository'
+import { teste } from '../domain/interfaces/models/teste'
 import Order from '../infra/typeorm/entities/Order'
-import OrderRepository from '../infra/typeorm/repositories/OrderRepository'
 
-interface IProduct {
-  id: string
-  price: number
-  quantity: number
-}
-
-interface IRequest {
-  customer_id: string
-  products: IProduct[]
-}
-
+@injectable()
 class CreateOrderService {
-  public async execute({ customer_id, products }: IRequest): Promise<Order> {
-    const orderRepository = getCustomRepository(OrderRepository)
-    const customerRepository = getCustomRepository(CustomerRepository)
-    const productRepository = getCustomRepository(ProductRepository)
-    const customerExists = await customerRepository.findById(customer_id)
+  constructor(
+    @inject('OrderRepository') private orderRepository: IOrderRepository,
+    @inject('ProductRepository') private productRepository: IProductRepository,
+    @inject('CustomerRepository') private customerRepository: ICustomerRepository,
+  ) {}
+  public async execute({ customer_id, products }: teste): Promise<Order> {
+    const customerExists = await this.customerRepository.findById(customer_id)
     if (!customerExists) {
       throw new AppError('Could not find any customer with given id.')
     }
-
-    const productsList = await productRepository.findAllByIds(products)
+    const productsList = await this.productRepository.findAllByIds(products)
     if (!productsList.length) {
       throw new AppError('Could not find any products with given ids.')
     }
@@ -49,15 +41,17 @@ class CreateOrderService {
       price: productsList.filter(p => p.id === product.id)[0].price,
       quantity: product.quantity,
     }))
-    const order = await orderRepository.createOrder({ customer: customerExists, products: prepareProductsToSave })
-
+    const order = await this.orderRepository.createOrder({
+      customer: customerExists,
+      order_products: prepareProductsToSave,
+    })
     const { order_products } = order
     const updatedQuantityProductQuantity = order_products.map(product => ({
       id: product.product_id,
       quantity: productsList.filter(p => p.id === product.product_id)[0].quantity - product.quantity,
     }))
-    await productRepository.save(updatedQuantityProductQuantity)
-
+    console.log('updatedQuantityProductQuantity', updatedQuantityProductQuantity)
+    await this.productRepository.save(updatedQuantityProductQuantity)
     return order
   }
 }

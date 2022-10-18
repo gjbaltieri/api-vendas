@@ -1,24 +1,24 @@
 import RedisCache from '@shared/cache/RedisCache'
 import AppError from '@shared/errors/AppError'
+import { inject, injectable } from 'tsyringe'
 import { getCustomRepository } from 'typeorm'
+import { IidProduct } from '../domain/interfaces/models/IidProduct'
+import { IProductRepository } from '../domain/interfaces/repository/IProductRepository'
 import ProductRepository from '../infra/typeorm/repositories/ProductRepository'
 
-interface DInterface {
-  id: string
-}
-
-class DeleteProduct {
-  public async execute({ id }: DInterface): Promise<void> {
-    const productRepository = getCustomRepository(ProductRepository)
-    const product = await productRepository.findOne(id)
-
+@injectable()
+class DeleteProductService {
+  constructor(@inject('ProductRepository') private productRepository: IProductRepository) {}
+  public async execute(id: string): Promise<void> {
+    const product = await this.productRepository.findById(id)
+    console.log('aqui', product)
     if (!product) {
       throw new AppError('Product not found.')
     }
     await RedisCache.invalidate('APIVENDAS_PRODUCT_LIST')
 
-    await productRepository.remove(product)
+    await this.productRepository.delete(product)
   }
 }
 
-export default DeleteProduct
+export default DeleteProductService

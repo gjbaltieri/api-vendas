@@ -1,4 +1,3 @@
-import Customer from '../../../../customers/infra/typeorm/entities/Customer'
 import {
   Column,
   CreateDateColumn,
@@ -10,19 +9,22 @@ import {
 } from 'typeorm'
 import Order from './Order'
 import Product from '@modules/products/infra/typeorm/entities/Product'
+import { IProduct } from '@shared/interface/relationship/IProduct'
+import { IOrdersProducts } from '@shared/interface/relationship/IOrdersProducts'
+import { IOrder } from '@shared/interface/relationship/IOrder'
 
 @Entity('orders_products')
-class OrdersProducts {
+class OrdersProducts implements IOrdersProducts {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
   @ManyToOne(() => Order, order => order.order_products)
   @JoinColumn({ name: 'order_id' })
-  order: Order
+  order: IOrder
 
   @ManyToOne(() => Product, product => product.order_products)
   @JoinColumn({ name: 'product_id' })
-  product: Product
+  product: IProduct
 
   @Column()
   order_id: string
