@@ -11,7 +11,6 @@ class DeleteProductService {
   constructor(@inject('ProductRepository') private productRepository: IProductRepository) {}
   public async execute(id: string): Promise<void> {
     const product = await this.productRepository.findById(id)
-    console.log('aqui', product)
     if (!product) {
       throw new AppError('Product not found.')
     }
