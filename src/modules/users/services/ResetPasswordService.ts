@@ -14,7 +14,7 @@ injectable()
 class ResetPasswordService {
   constructor(
     @inject('UserRepository') private userRepository: IUserRepository,
-    @inject('UserRepository') private userTokenRepository: IUserTokenRepository,
+    @inject('UserTokenRepository') private userTokenRepository: IUserTokenRepository,
   ) {}
   public async execute({ token, password }: IRequest): Promise<void> {
     const userToken = await this.userTokenRepository.findByToken(token)

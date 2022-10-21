@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError'
 import { getCustomRepository } from 'typeorm'
 import UserRepository from '../infra/typeorm/repository/UsersRepository'
-import { compare, hash } from 'bcryptjs'
+import { compare, compareSync, hash } from 'bcryptjs'
 import { IUpdateUser } from '../domain/interfaces/models/IUpdateUser'
 import { IUser } from '../domain/interfaces/models/IUser'
 import { inject, injectable } from 'tsyringe'
@@ -11,7 +11,7 @@ import { IUserRepository } from '../domain/repository/IUserRepository'
 class UpdateUserService {
   constructor(@inject('UserRepository') private userRepository: IUserRepository) {}
   public async execute({ id, name, email, password, old_password }: IUpdateUser): Promise<IUser> {
-    const user = await this.userRepository.findById({ id })
+    const user = await this.userRepository.findById(id)
     if (!user) {
       throw new AppError('User not found.')
     }
@@ -19,15 +19,11 @@ class UpdateUserService {
     if (emailExists && emailExists.id !== id) {
       throw new AppError('There is already one user with this email')
     }
-
     if (password && !old_password) {
       throw new AppError('Current password is required')
     }
-    if (password === old_password) {
-      throw new AppError('The new password must be different from the current one.')
-    }
     if (password && old_password) {
-      const checkPassword = await compare(old_password, user.password)
+      const checkPassword = compareSync(old_password, user.password)
       if (!checkPassword) {
         throw new AppError('Current password does not match.')
       }

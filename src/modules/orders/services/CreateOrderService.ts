@@ -50,7 +50,6 @@ class CreateOrderService {
       id: product.product_id,
       quantity: productsList.filter(p => p.id === product.product_id)[0].quantity - product.quantity,
     }))
-    console.log('updatedQuantityProductQuantity', updatedQuantityProductQuantity)
     await this.productRepository.save(updatedQuantityProductQuantity)
     return order
   }

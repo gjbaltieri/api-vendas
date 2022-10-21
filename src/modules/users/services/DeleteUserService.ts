@@ -1,8 +1,6 @@
 import AppError from '@shared/errors/AppError'
 import { inject, injectable } from 'tsyringe'
-import { getCustomRepository } from 'typeorm'
 import { IUserRepository } from '../domain/repository/IUserRepository'
-import UserRepository from '../infra/typeorm/repository/UsersRepository'
 
 @injectable()
 class deleteUserService {

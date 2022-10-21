@@ -1,8 +1,6 @@
 import AppError from '@shared/errors/AppError'
-import { compare } from 'bcryptjs'
+import { compare, compareSync } from 'bcryptjs'
 import AuthConfig from '@config/AuthConfig'
-import { getCustomRepository } from 'typeorm'
-import UsersRepository from '../infra/typeorm/repository/UsersRepository'
 import { sign } from 'jsonwebtoken'
 import { ISessionResponse } from '../domain/interfaces/models/ISessionResponse'
 import { ISession } from '../domain/interfaces/models/ISession'
@@ -18,7 +16,7 @@ class createSessionService {
       throw new AppError('Invalid email or password.', 401)
     }
 
-    const unhashPassword = await compare(password, user.password)
+    const unhashPassword = compareSync(password, user.password)
     if (!unhashPassword) {
       throw new AppError('Invalid email or password.', 401)
     }

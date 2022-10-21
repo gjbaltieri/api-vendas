@@ -15,7 +15,7 @@ class SendForgotPasswordEmailService {
     @inject('UserRepository') private userRepository: IUserRepository,
     @inject('UserRepository') private userTokenRepository: IUserTokenRepository,
   ) {}
-  public async execute({ email }: IRequest): Promise<void> {
+  public async execute({ email }: IRequest): Promise<Boolean> {
     const templatePath = path.resolve(__dirname, '..', 'view', 'forgot_password.hbs')
     const user = await this.userRepository.findByEmail(email)
     if (!user) {
@@ -36,6 +36,7 @@ class SendForgotPasswordEmailService {
         },
       },
     })
+    return true
   }
 }
 
