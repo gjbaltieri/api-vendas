@@ -5,7 +5,6 @@ import AppError from '@shared/errors/AppError'
 import { IUser } from '@modules/users/domain/interfaces/models/IUser'
 import CreateUserService from '@modules/users/services/CreateUserService'
 import SendForgotPasswordEmailService from '@modules/users/services/SendForgotPasswordEmailService'
-import UserTokenRepository from '@modules/users/infra/typeorm/repository/UserTokenRepository'
 import FakeUserTokenRepository from '../fakeRepository/fakeUserTokenRepository'
 
 let fakeUserRepository: FakeUserRepository
@@ -38,7 +37,7 @@ describe('Send forgot Password Email suite tests', () => {
   it('should a reject create a send Email (user not found.)', async () => {
     expect(
       sendForgotPasswordEmailService.execute({
-        email: 'Fake_id',
+        email: 'Fake_email',
       }),
     ).rejects.toBeInstanceOf(AppError)
   })

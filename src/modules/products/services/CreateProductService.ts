@@ -1,7 +1,7 @@
 import RedisCache from '@shared/cache/RedisCache'
 import AppError from '@shared/errors/AppError'
 import { ICreateProduct } from '../domain/interfaces/models/ICreateProduct'
-import { injectable, inject, container } from 'tsyringe'
+import { injectable, inject } from 'tsyringe'
 import { IProductRepository } from '../domain/interfaces/repository/IProductRepository'
 import { IProduct } from '../../../shared/interface/relationship/IProduct'
 

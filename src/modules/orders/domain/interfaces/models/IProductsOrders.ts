@@ -1,5 +1,5 @@
 export interface IProductsOrders {
-  product_id: string
-  price: number | undefined
+  id: string
+  price: number
   quantity: number
 }

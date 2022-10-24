@@ -1,7 +1,11 @@
 import { ICustomer } from '@shared/interface/relationship/ICustomer'
-import { IProductsOrders } from './IProductsOrders'
+
+interface IProductsList {
+  id: string
+  quantity: number
+}
 
 export interface ICreateOrder {
   customer: ICustomer
-  order_products: IProductsOrders[]
+  product: IProductsList[]
 }

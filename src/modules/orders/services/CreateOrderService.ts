@@ -3,8 +3,8 @@ import { IProductRepository } from '@modules/products/domain/interfaces/reposito
 import AppError from '@shared/errors/AppError'
 import { inject, injectable } from 'tsyringe'
 import { IOrderRepository } from '../domain/interfaces/models/repository/IOrderRepository'
-import { teste } from '../domain/interfaces/models/teste'
-import Order from '../infra/typeorm/entities/Order'
+import { INewOrder } from '../domain/interfaces/models/INewOrder'
+import { IOrder } from '@shared/interface/relationship/IOrder'
 
 @injectable()
 class CreateOrderService {
@@ -13,8 +13,9 @@ class CreateOrderService {
     @inject('ProductRepository') private productRepository: IProductRepository,
     @inject('CustomerRepository') private customerRepository: ICustomerRepository,
   ) {}
-  public async execute({ customer_id, products }: teste): Promise<Order> {
+  public async execute({ customer_id, products }: INewOrder): Promise<IOrder> {
     const customerExists = await this.customerRepository.findById(customer_id)
+
     if (!customerExists) {
       throw new AppError('Could not find any customer with given id.')
     }
@@ -37,18 +38,18 @@ class CreateOrderService {
       )
     }
     const prepareProductsToSave = products.map(product => ({
-      product_id: product.id,
+      id: product.id,
       price: productsList.filter(p => p.id === product.id)[0].price,
       quantity: product.quantity,
     }))
     const order = await this.orderRepository.createOrder({
       customer: customerExists,
-      order_products: prepareProductsToSave,
+      product: prepareProductsToSave,
     })
     const { order_products } = order
     const updatedQuantityProductQuantity = order_products.map(product => ({
-      id: product.product_id,
-      quantity: productsList.filter(p => p.id === product.product_id)[0].quantity - product.quantity,
+      id: product.id,
+      quantity: productsList.filter(p => p.id === product.id)[0].quantity - product.quantity,
     }))
     await this.productRepository.save(updatedQuantityProductQuantity)
     return order

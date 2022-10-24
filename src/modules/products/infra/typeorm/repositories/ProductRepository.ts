@@ -4,6 +4,7 @@ import { IProduct } from '@shared/interface/relationship/IProduct'
 import { IProductRepository } from '@modules/products/domain/interfaces/repository/IProductRepository'
 import { getRepository, In, Repository } from 'typeorm'
 import { ICreateProduct } from '@modules/products/domain/interfaces/models/ICreateProduct'
+import { ISaveProduct } from '@modules/products/domain/interfaces/models/ISaveProduct'
 
 class ProductRepository implements IProductRepository {
   private orm: Repository<Product>
@@ -38,7 +39,7 @@ class ProductRepository implements IProductRepository {
     await this.orm.save(product)
     return product
   }
-  public async save(data: IProduct[]): Promise<IProduct[]> {
+  public async save(data: ISaveProduct[]): Promise<IProduct[]> {
     const product = await this.orm.save(data)
     return product
   }

@@ -1,9 +1,8 @@
 import { EntityRepository, getRepository, Repository } from 'typeorm'
 import Order from '../entities/Order'
-import { ICreateOrder } from '@modules/orders/domain/interfaces/models/ICreateOrder'
 import { IOrder } from '@shared/interface/relationship/IOrder'
 import { IOrderRepository } from '@modules/orders/domain/interfaces/models/repository/IOrderRepository'
-import { IOrdersProducts } from '@shared/interface/relationship/IOrdersProducts'
+import { ICreateOrder } from '@modules/orders/domain/interfaces/models/ICreateOrder'
 
 @EntityRepository(Order)
 class OrderRepository implements IOrderRepository {
@@ -19,11 +18,8 @@ class OrderRepository implements IOrderRepository {
     const order = this.orm.findOne(id, { relations: ['customer', 'order_products'] })
     return order
   }
-  public async createOrder({ customer, order_products }: ICreateOrder): Promise<IOrder> {
-    const order = this.orm.create({
-      customer,
-      order_products,
-    })
+  public async createOrder({ customer, product }: ICreateOrder): Promise<IOrder> {
+    const order = this.orm.create({ customer, order_products: product })
 
     await this.orm.save(order)
     return order
