@@ -12,7 +12,7 @@ class UpdateProductService {
     const product = await this.productRepository.findById(id)
 
     if (!product) {
-      throw new AppError('Product not found!')
+      throw new AppError('Product not found', 404)
     }
 
     const productName = await this.productRepository.findByName(data.name)
