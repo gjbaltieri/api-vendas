@@ -1,4 +1,4 @@
-import { ICustomer } from '@shared/interface/relationship/ICustomer'
+import { ICustomer } from '../../../../../shared/interface/relationship/ICustomer'
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity('customers')

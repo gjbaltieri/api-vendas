@@ -21,7 +21,7 @@ interface ISendMail {
   templateData: IParseEmail
 }
 export default class EtherealMail {
-  static async sendMail({ from, to, subject, templateData }: ISendMail): Promise<void> {
+  static async sendMail({ from, to, subject, templateData }: ISendMail): Promise<any> {
     const account = await nodemailer.createTestAccount()
     const mailTemplate = new HandlebarEmailTemplate()
     const transporter = nodemailer.createTransport({
@@ -45,7 +45,8 @@ export default class EtherealMail {
       subject,
       html: await mailTemplate.parse(templateData),
     })
-    console.log('Message sent: %s', message.messageId)
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(message))
+    const { messageId } = message
+    const messageLink = nodemailer.getTestMessageUrl(message)
+    return { messageId, messageLink }
   }
 }

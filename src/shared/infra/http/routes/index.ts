@@ -7,7 +7,7 @@ import ProfileRoutes from '@modules/users/infra/http/routes/profile.routes'
 import CustomerRoutes from '@modules/customers/infra/http/routes/customer.routes'
 import OrderRoutes from '@modules/orders/infra/http/routes/orders.routes'
 import swaggerUI from 'swagger-ui-express'
-import swaggerDocument from 'swagger.json'
+import swaggerDocument from '../../../../../swagger.json'
 
 const routes = Router()
 

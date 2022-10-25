@@ -31,8 +31,7 @@ describe('Send forgot Password Email suite tests', () => {
     const sendEmail = await sendForgotPasswordEmailService.execute({
       email: User.email,
     })
-    console.log('send email', sendEmail)
-    expect(sendEmail).toBe(true)
+    expect(sendEmail).toHaveProperty('messageLink')
   })
   it('should a reject create a send Email (user not found.)', async () => {
     expect(

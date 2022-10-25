@@ -17,10 +17,6 @@
   ],
   "tags": [
     {
-      "name": "Order",
-      "description": "Everything about Orders"
-    },
-    {
       "name": "Product",
       "description": "Everything about Products"
     },
@@ -29,11 +25,140 @@
       "description": "Everything about Users"
     },
     {
+      "name": "Session",
+      "description": "Everything about Session"
+    },
+    {
+      "name": "Password",
+      "description": "Everything about Password"
+    },
+    {
       "name": "Customer",
       "description": "Everything about Customers"
+    },
+    {
+      "name": "Order",
+      "description": "Everything about Orders"
     }
   ],
   "paths": {
+    "/password/forgot/": {
+      "post": {
+        "tags": [
+          "Password"
+        ],
+        "summary": "Send fake email to a user who forgot their password",
+        "description": "Returns a password reset fake email link - Expires in 2 hours - await ~ 35 seconds",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "email@mail.com",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FakeMail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/password/reset/": {
+      "post": {
+        "tags": [
+          "Password"
+        ],
+        "summary": "Use Token to reset User password",
+        "description": "Reset a password using the generated and emailed token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "example": "4d343a23-1f9c-402d-ab63-735d0cebec2d",
+                    "required": true
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "myNewPassword",
+                    "required": true
+                  },
+                  "passwordConfirmation": {
+                    "type": "string",
+                    "example": "myNewPassword",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sessions/": {
+      "post": {
+        "tags": [
+          "Session"
+        ],
+        "summary": "Create a new session using user email and password",
+        "description": "Return one token for protected routs - Expires in 1 day",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "email@mail.com",
+                    "required": true
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "myPassword",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Email adress already used."
+          }
+        }
+      }
+    },
     "/orders/": {
       "get": {
         "security": [
@@ -351,11 +476,6 @@
         }
       },
       "post": {
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "tags": [
           "User"
         ],
@@ -500,7 +620,7 @@
           "User"
         ],
         "consumes": "multipart/form-data",
-        "summary": "Send image file to use in avatar",
+        "summary": "Send image file to use in avatar - see image in /files/{fileName}",
         "description": "send a image file",
         "requestBody": {
           "content": {
@@ -629,11 +749,6 @@
         }
       },
       "put": {
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "tags": [
           "Product"
         ],
@@ -1026,6 +1141,32 @@
             "type": "string",
             "format": "date",
             "example": "2022-10-06T22:53:39.626Z"
+          }
+        }
+      },
+      "Session": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "type": "object",
+            "$ref": "#/components/schemas/User"
+          },
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjY3MTI2OTMsImV4cCI6MTY2Njc5OTA5Mywic3ViIjoiNzUxYjE4OTItM2RlNC00Y2NmLWFhZjktODlhMTdlM2M1MmNlIn0.0BD6DElnD0BztkfxWhPIi0M-_xyDyfZFrrb9zh66uIM"
+          }
+        }
+      },
+      "FakeMail": {
+        "type": "object",
+        "properties": {
+          "messageId": {
+            "type": "string",
+            "example": "<9ba98643-dd11-1430-81f4-77edcf858a78@apivendas.com.br>"
+          },
+          "messageLink": {
+            "type": "string",
+            "example": "https://ethereal.email/message/Y1gs-.tGBWK-96f2Y1gtHNrdTSTO3aUgAAAAARRz5hTCai6Ig5Jsup5aUms"
           }
         }
       }

@@ -1,5 +1,5 @@
 .ide
-dist
+src/
 temp
 .env
 coverage
@@ -11,3 +11,4 @@ ormconfig
 
 uploads/*
 !uploads/.gitkeep
+.docker

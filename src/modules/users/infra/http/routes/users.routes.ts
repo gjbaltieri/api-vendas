@@ -37,6 +37,7 @@ UserRoutes.put(
 )
 UserRoutes.delete(
   '/:id',
+  isAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),

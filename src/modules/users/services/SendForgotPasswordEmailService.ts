@@ -13,16 +13,16 @@ interface IRequest {
 class SendForgotPasswordEmailService {
   constructor(
     @inject('UserRepository') private userRepository: IUserRepository,
-    @inject('UserRepository') private userTokenRepository: IUserTokenRepository,
+    @inject('UserTokenRepository') private userTokenRepository: IUserTokenRepository,
   ) {}
-  public async execute({ email }: IRequest): Promise<Boolean> {
+  public async execute({ email }: IRequest): Promise<any> {
     const templatePath = path.resolve(__dirname, '..', 'view', 'forgot_password.hbs')
     const user = await this.userRepository.findByEmail(email)
     if (!user) {
       throw new AppError('User does not exists.')
     }
     const { token } = await this.userTokenRepository.generate(user.id)
-    await EtherealMail.sendMail({
+    const message = await EtherealMail.sendMail({
       to: {
         name: user.name,
         address: email,
@@ -36,7 +36,7 @@ class SendForgotPasswordEmailService {
         },
       },
     })
-    return true
+    return message
   }
 }
 
