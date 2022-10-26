@@ -6,6 +6,8 @@ import { IProductRepository } from '@modules/products/domain/interfaces/reposito
 import ProductRepository from '@modules/products/infra/typeorm/repositories/ProductRepository'
 import { IUserRepository } from '@modules/users/domain/repository/IUserRepository'
 import { IUserTokenRepository } from '@modules/users/domain/repository/IUserTokenRepository'
+import BCryptoHashProvider from '@modules/users/infra/providers/implementations/BCryptoHashProvider'
+import { IBCryptoHashProvider } from '@modules/users/infra/providers/models/IBCryptoHashProvider'
 import UsersRepository from '@modules/users/infra/typeorm/repository/UsersRepository'
 import UserTokenRepository from '@modules/users/infra/typeorm/repository/UserTokenRepository'
 import { container } from 'tsyringe'
@@ -15,3 +17,4 @@ container.registerSingleton<IProductRepository>('ProductRepository', ProductRepo
 container.registerSingleton<IOrderRepository>('OrderRepository', OrderRepository)
 container.registerSingleton<IUserRepository>('UserRepository', UsersRepository)
 container.registerSingleton<IUserTokenRepository>('UserTokenRepository', UserTokenRepository)
+container.registerSingleton<IBCryptoHashProvider>('BCryptoHashProvider', BCryptoHashProvider)

@@ -1,5 +1,4 @@
 .ide
-src/
 temp
 .env
 coverage

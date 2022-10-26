@@ -1,25 +1,7 @@
 import nodemailer from 'nodemailer'
 import HandlebarEmailTemplate from './HandlebarsEmailTemplate'
+import { ISendMail } from './interface/models/ISendMail'
 
-interface IVariables {
-  [key: string]: string | number | undefined
-}
-
-interface IParseEmail {
-  file: string
-  variables: IVariables
-}
-
-interface IMailContact {
-  name: string
-  address: string
-}
-interface ISendMail {
-  from?: IMailContact
-  to: IMailContact
-  subject: string
-  templateData: IParseEmail
-}
 export default class EtherealMail {
   static async sendMail({ from, to, subject, templateData }: ISendMail): Promise<any> {
     const account = await nodemailer.createTestAccount()
