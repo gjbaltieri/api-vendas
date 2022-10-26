@@ -10,7 +10,6 @@
     "start": "node dist/shared/infra/http/server.js",
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
     "lint": "eslint . --ext .ts",
-    "dev-js": "node ./dist/shared/http/server.js migration:run",
     "lint-fix": "eslint . --ext .ts --fix",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js migration:run",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
