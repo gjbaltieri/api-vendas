@@ -31,7 +31,7 @@ UserRoutes.put('/update', _isAuthenticated.default, (0, _celebrate.celebrate)({
     old_password: _celebrate.Joi.string().required()
   }
 }), profileController.update);
-UserRoutes.delete('/:id', (0, _celebrate.celebrate)({
+UserRoutes.delete('/:id', _isAuthenticated.default, (0, _celebrate.celebrate)({
   [_celebrate.Segments.PARAMS]: {
     id: _celebrate.Joi.string().uuid().required()
   }
