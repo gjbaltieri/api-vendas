@@ -7,8 +7,5 @@ module.exports = {
   database: `${process.env.PG_DATABASE}`,
   entities: [`${process.env.PG_ENTITIES}`],
   migrations: [`${process.env.PG_MIGRATIONS}`],
-  cli: { migrationsDir: `${process.env.PG_MIGRATIONS_DIR}` },
-  extra: {
-    ssl: true,
-  },
+  cli: { migrationsDir: `${process.env.PG_MIGRATIONS_DIR}` }
 }
