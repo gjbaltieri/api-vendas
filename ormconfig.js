@@ -1,4 +1,4 @@
-export default {
+const config = {
   type: `postgres`,
   host: `${process.env.PG_HOST}`,
   port: `${process.env.PG_PORT}`,
@@ -12,3 +12,4 @@ export default {
     ssl: true,
   },
 }
+module.exports = config
